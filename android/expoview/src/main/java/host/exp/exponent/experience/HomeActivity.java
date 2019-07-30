@@ -20,15 +20,15 @@ import java.util.Arrays;
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
-import expo.modules.analytics.amplitude.AmplitudePackage;
+//import expo.modules.analytics.amplitude.AmplitudePackage;
 import expo.modules.barcodescanner.BarCodeScannerPackage;
-import expo.modules.camera.CameraPackage;
+//import expo.modules.camera.CameraPackage;
 import expo.modules.constants.ConstantsPackage;
-import expo.modules.facedetector.FaceDetectorPackage;
+//import expo.modules.facedetector.FaceDetectorPackage;
 import expo.modules.filesystem.FileSystemPackage;
-import expo.modules.font.FontLoaderPackage;
+//import expo.modules.font.FontLoaderPackage;
 import expo.modules.keepawake.KeepAwakePackage;
-import expo.modules.medialibrary.MediaLibraryPackage;
+//import expo.modules.medialibrary.MediaLibraryPackage;
 import expo.modules.permissions.PermissionsPackage;
 import expo.modules.taskManager.TaskManagerPackage;
 import host.exp.exponent.Constants;
@@ -107,15 +107,15 @@ public class HomeActivity extends BaseExperienceActivity {
     return Arrays.<Package>asList(
         new ConstantsPackage(),
         new PermissionsPackage(),
-        new FileSystemPackage(),
-        new FontLoaderPackage(),
+       new FileSystemPackage(),
+//        new FontLoaderPackage(),
         new BarCodeScannerPackage(),
-        new KeepAwakePackage(),
-        new AmplitudePackage(),
-        new CameraPackage(),
-        new FaceDetectorPackage(),
-        new MediaLibraryPackage(),
-        new TaskManagerPackage() // load expo-task-manager to restore tasks once the client is opened
+       new KeepAwakePackage(),
+//        new AmplitudePackage(),
+//        new CameraPackage(),
+//        new FaceDetectorPackage(),
+//        new MediaLibraryPackage(),
+       new TaskManagerPackage() // load expo-task-manager to restore tasks once the client is opened
     );
   }
 }

@@ -160,23 +160,77 @@ dependencies {
       modulesPaths : ['../../packages'],
       configuration: 'api',
       target       : 'react-native',
-      exclude      : ['expo-bluetooth', 'expo-in-app-purchases', 'expo-updates']
+      exclude      : ["expo-ads-admob",
+                      "expo-ads-facebook",
+                      "expo-analytics-amplitude",
+                      "expo-analytics-segment",
+                      "expo-app-auth",
+//                      "expo-app-loader-provider",
+                      "expo-asset",
+//                      "expo-av",
+                      "expo-background-fetch",
+//                      "expo-barcode-scanner",
+                      'expo-bluetooth',
+                      "expo-blur",
+                      "expo-brightness",
+                      "expo-calendar",
+                      "expo-camera",
+                      "expo-contacts",
+                      "expo-crypto",
+                      "expo-device",
+                      "expo-document-picker",
+                      "expo-face-detector",
+                      "expo-facebook",
+//                      "expo-file-system",
+                      "expo-font",
+                      "expo-gl",
+                      "expo-gl-cpp",
+                      "expo-google-sign-in",
+                      "expo-haptics",
+                      "expo-image-manipulator",
+                      "expo-image-picker",
+                      "expo-in-app-purchases",
+                      "expo-intent-launcher",
+                      "expo-linear-gradient",
+                      "expo-local-authentication",
+                      "expo-localization",
+                      "expo-location",
+                      "expo-mail-composer",
+                      "expo-media-library",
+                      "expo-payments-stripe",
+                      "expo-print",
+                      "expo-random",
+//                      "expo-sensors",
+                      "expo-sharing",
+                      "expo-sms",
+                      "expo-speech",
+                      "expo-sqlite",
+//                      "expo-task-manager",
+                      "expo-updates",
+                      "expo-video-thumbnails",
+                      "expo-web-browser",
+//                      "unimodules-barcode-scanner-interface",
+                      "unimodules-camera-interface",
+                      "unimodules-face-detector-interface",
+//                      "unimodules-sensors-interface",
+//                      "unimodules-task-manager-interface",
+      ]
   ])
 
   // Versioned react native
   // WHEN_PREPARING_SHELL_REMOVE_FROM_HERE
   // THIS COMMENT IS USED BY android-build-aar.sh DO NOT MODIFY
   // BEGIN_SDK_34
-  api 'host.exp:reactandroid-abi34_0_0:1.0.0'
+//  api 'host.exp:reactandroid-abi34_0_0:1.0.0'
   // END_SDK_34
   // BEGIN_SDK_33
-  api 'host.exp:reactandroid-abi33_0_0:1.0.0'
+//  api 'host.exp:reactandroid-abi33_0_0:1.0.0'
   // END_SDK_33
   // BEGIN_SDK_32
-  api 'host.exp:reactandroid-abi32_0_0:1.0.0'
+//  api 'host.exp:reactandroid-abi32_0_0:1.0.0'
   // END_SDK_32
   // BEGIN_SDK_31
-  api 'host.exp:reactandroid-abi31_0_0:1.0.0'
+//  api 'host.exp:reactandroid-abi31_0_0:1.0.0'
   // END_SDK_31
   // WHEN_PREPARING_SHELL_REMOVE_TO_HERE
   // WHEN_VERSIONING_REMOVE_TO_HERE
