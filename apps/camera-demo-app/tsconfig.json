@@ -1,0 +1,10 @@
+{
+  "extends": "expo-module-scripts/tsconfig.base",
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "experimentalDecorators": true,
+    "baseUrl": ".",
+  },
+  "include": ["App.tsx", "src/**/*"],
+  "exclude": ["node_modules"]
+}

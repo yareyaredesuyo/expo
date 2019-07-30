@@ -1,0 +1,26 @@
+{
+  "name": "camera-demo-app",
+  "version": "0.1.0",
+  "description": "This app demonstrates camera",
+  "author": "Expo",
+  "private": true,
+  "main": "__generated__/AppEntry.js",
+  "scripts": {
+    "postinstall": "expo-yarn-workspaces postinstall",
+    "start": "expo start"
+  },
+  "dependencies": {
+    "expo": "^34.0.0-experiment.8",
+    "react": "16.8.3",
+    "react-dom": "^16.8.6",
+    "react-native": "0.59.8",
+    "react-native-web": "^0.11.4"
+  },
+  "devDependencies": {
+    "@types/react": "^16.8.23",
+    "@types/react-native": "^0.57.65",
+    "babel-preset-expo": "^6.0.0",
+    "expo-yarn-workspaces": "^1.0.0",
+    "typescript": "^3.5.3"
+  }
+}

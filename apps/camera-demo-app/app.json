@@ -1,0 +1,32 @@
+{
+  "expo": {
+    "name": "camera-demo-app",
+    "slug": "camera-demo-app",
+    "description": "This app demonstrates camera",
+    "privacy": "public",
+    "sdkVersion": "UNVERSIONED",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "backgroundColor": "#4588aa"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "packagerOpts": {
+      "config": "metro.config.js"
+    },
+    "ios": {},
+    "android": {},
+    "web": {}
+  }
+}
