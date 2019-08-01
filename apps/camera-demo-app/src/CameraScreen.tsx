@@ -2,13 +2,17 @@ import * as React from 'react'
 import { StyleSheet, Text, View, Button, StatusBar } from 'react-native'
 import * as Permissions from 'expo-permissions'
 
-import Camera from './src/Camera'
+import Camera from './Camera'
 
 interface State {
   permissionsGranted?: boolean,
 }
 
 export default class CameraScreen extends React.Component<{}, State> {
+  static navigationOptions = {
+    title: 'Camera2Screen',
+  }
+
   readonly state: State = {}
 
   componentDidMount() {
@@ -43,7 +47,7 @@ export default class CameraScreen extends React.Component<{}, State> {
 
     return (
       <Camera />
-    );
+    )
   }
 }
 
@@ -52,11 +56,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#F5FCFF'
   },
   text: {
     fontSize: 20,
     textAlign: 'center',
-    margin: 10,
+    margin: 10
   },
 })
