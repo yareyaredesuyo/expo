@@ -5,7 +5,7 @@ import {
   Text,
   Dimensions,
   TouchableOpacity,
-} from 'react-native'
+} from 'react-native';
 import {
   TapGestureHandler,
   PanGestureHandler,
@@ -24,11 +24,13 @@ import {
   AutofocusIcon,
   HDRIcon,
   PreviewSizeIcon,
-} from './icons'
-import ExpandableSelect from './ExpandableSelect'
-import CameraActionButton from './CameraActionButton'
-import ChangeFacingButton from './ChangeFacingButton'
-import FocusMarker from './FocusMarker'
+} from './icons';
+import ExpandableSelect from './ExpandableSelect';
+import CameraActionButton from './CameraActionButton';
+import ChangeFacingButton from './ChangeFacingButton';
+import FocusMarker from './FocusMarker';
+import ExpandableContainer from './ExpandableContainer';
+import SnappableCarousel from './SnappableCarousel';
 
 type PreviewSize =
   | { width: number, height: number }
@@ -47,7 +49,8 @@ interface Point {
 }
 
 interface State {
-  operationMode: OperationMode
+  operationMode: OperationMode;
+  bottomSupportingMenuExpanded: boolean;
 
   flashMode: ExpoCamera.FlashMode
   autofocus: ExpoCamera.Autofocus
@@ -67,6 +70,9 @@ interface State {
 enum OperationMode {
   Photo = 'photo',
   Video = 'video',
+  Square = 'square',
+  SloMo = 'slo-mo',
+  Pano = 'pano',
 }
 
 interface OperationModeOptions {
@@ -76,6 +82,9 @@ interface OperationModeOptions {
 const operationModesOptions: { [key in OperationMode]: OperationModeOptions } = {
   [OperationMode.Photo]: {},
   [OperationMode.Video]: {},
+  [OperationMode.Square]: {},
+  [OperationMode.SloMo]: {},
+  [OperationMode.Pano]: {},
 }
 
 const initialNamedPreviewSizes: NamedPreviewSize[] = [
@@ -88,6 +97,7 @@ export default class Camera extends React.PureComponent<{}, State> {
     brightnessIndicator: 0.0,
     previewSize: initialNamedPreviewSizes[0],
     availablePreviewSizes: initialNamedPreviewSizes,
+    bottomSupportingMenuExpanded: false,
 
     flashMode: ExpoCamera.FlashMode.Auto,
     autofocus: ExpoCamera.Autofocus.Off,
@@ -102,7 +112,9 @@ export default class Camera extends React.PureComponent<{}, State> {
   handleHDRChange = (hdr: ExpoCamera.HDR) => this.setState({ hdr })
   handlePreviewSizeChange = (previewSize: NamedPreviewSize) => this.setState({ previewSize })
 
-  handleTopActionExpanded = (topActionExpanded: TopAction) => this.setState({ topActionExpanded: this.state.topActionExpanded === topActionExpanded ? undefined : topActionExpanded })
+  handleTopActionExpanded = (topActionExpanded: TopAction) => this.setState({
+    topActionExpanded: this.state.topActionExpanded === topActionExpanded ? undefined : topActionExpanded,
+  });
 
   renderCarouselMode = ({ item, index }: { item: OperationMode, index: number }) => {
     return (
@@ -128,8 +140,12 @@ export default class Camera extends React.PureComponent<{}, State> {
     if (this.clearFocusPointTimeoutHandler) {
       clearTimeout(this.clearFocusPointTimeoutHandler)
     }
-    this.clearFocusPointTimeoutHandler = setTimeout(
-      () => this.setState({ focusPoint: undefined, showBrightnessRuler: false, brightnessIndicator: 0.0 }),
+    this.clearFocusPointTimeoutHandler = window.setTimeout(
+      () => this.setState({
+        focusPoint: undefined,
+        showBrightnessRuler: false,
+        brightnessIndicator: 0.0,
+      }),
       8000, // hold for 8 seconds
     )
   }
@@ -182,7 +198,7 @@ export default class Camera extends React.PureComponent<{}, State> {
         <PanGestureHandler onGestureEvent={this.handlePanGesture}>
           <TapGestureHandler onHandlerStateChange={this.handleTapGestureStateChange}>
             <View style={styles.cameraViewContainer}>
-              <ExpoCamera.View style={previewSize.previewSize} />
+              <ExpoCamera.View style={[previewSize.previewSize, styles.cameraPreview]} />
               {focusPoint && (
                 <FocusMarker
                   style={styles.focusMarker}
@@ -234,17 +250,23 @@ export default class Camera extends React.PureComponent<{}, State> {
           />
         </View>
         <View style={[styles.actionsContainer, styles.bottomActionsContainer]}>
+          <ExpandableContainer expanded={this.state.bottomSupportingMenuExpanded}>
+            <View style={styles.bottomSupportingMenuContainer}>
+
+            </View>
+          </ExpandableContainer>
           <View style={styles.modeCarouselContainer}>
-          <Carousel<OperationMode>
-            // @ts-ignore
-            ref={this.modeCarousel}
-            data={[OperationMode.Photo]}
-            renderItem={this.renderCarouselMode}
-            onSnapToItem={this.handleSnapToMode}
-            firstItem={0}
-            itemWidth={100}
-            sliderWidth={Dimensions.get('window').width}
-          />
+            <SnappableCarousel />
+            {/* <Carousel<OperationMode>
+              // @ts-ignore
+              ref={this.modeCarousel}
+              data={Object.values(OperationMode)}
+              renderItem={this.renderCarouselMode}
+              onSnapToItem={this.handleSnapToMode}
+              firstItem={0}
+              itemWidth={100}
+              sliderWidth={Dimensions.get('window').width}
+            /> */}
           </View>
           <View style={styles.cameraActionsContainer}>
             <CameraActionButton style={styles.cameraActionButton}/>
@@ -276,6 +298,10 @@ const styles = StyleSheet.create({
   bottomActionsContainer: {
     bottom: 0,
     paddingBottom: 15,
+  },
+  bottomSupportingMenu: {
+    left: 0,
+    right: 0,
   },
   modeCarouselContainer: {
     flex: 1,
@@ -310,9 +336,20 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'black',
+    backgroundColor: 'gray',
   },
   focusMarker: {
     position: 'absolute',
-  }
-})
+  },
+  cameraPreview: {
+    opacity: 0.2,
+  },
+  bottomSupportingMenuContainer: {
+    flex: 1,
+  },
+  text: {
+    fontWeight: '400',
+    color: 'white',
+    textTransform: 'uppercase',
+  },
+});
