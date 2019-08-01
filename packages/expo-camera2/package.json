@@ -15,6 +15,8 @@
   "keywords": [
     "react-native",
     "expo",
+    "camera",
+    "expo-camera",
     "expo-camera2"
   ],
   "repository": {
@@ -32,7 +34,7 @@
   },
   "devDependencies": {
     "expo-module-scripts": "^1.0.2",
-    "typescript": "3.5.3"
+    "typescript": "^3.5.3"
   },
   "gitHead": "8413e821076a2eca36b302e68dd628ce2e1f591a"
 }

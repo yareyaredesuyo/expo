@@ -10,7 +10,8 @@
     "start": "expo start"
   },
   "dependencies": {
-    "expo": "^34.0.0-experiment.8",
+    "expo": "^34.0.3",
+    "expo-camera2": "^0.1.0",
     "react": "16.8.3",
     "react-dom": "^16.8.6",
     "react-native": "0.59.8",
@@ -19,7 +20,7 @@
   "devDependencies": {
     "@types/react": "^16.8.23",
     "@types/react-native": "^0.57.65",
-    "babel-preset-expo": "^6.0.0",
+    "babel-preset-expo": "^6.0.1",
     "expo-yarn-workspaces": "^1.0.0",
     "typescript": "^3.5.3"
   }
