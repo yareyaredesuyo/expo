@@ -1,0 +1,19 @@
+// Copyright 2019-present 650 Industries. All rights reserved.
+
+#import <Foundation/Foundation.h>
+#import <UMCore/UMSingletonModule.h>
+
+NS_ASSUME_NONNULL_BEGIN
+
+@interface EXScreenOrientationRegistry : UMSingletonModule
+
+- (void)setOrientationMask:(UIInterfaceOrientationMask)orientationMask
+          forAppId:(NSString *)appId;
+- (UIInterfaceOrientationMask)getOrientationMaskForAppId:(NSString *)appId;
+- (BOOL)doesKeyExistForAppId:(NSString *)appId;
+
+@property (nonatomic, strong) NSMutableDictionary *orientationMaskRegistry;
+
+@end
+
+NS_ASSUME_NONNULL_END

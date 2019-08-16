@@ -2,7 +2,6 @@ import './Expo.fx';
 import * as AR from './AR';
 import * as ErrorRecovery from './ErrorRecovery/ErrorRecovery';
 import * as Logs from './logs/Logs';
-import * as ScreenOrientation from './ScreenOrientation/ScreenOrientation';
 import * as Updates from './Updates/Updates';
 import * as SplashScreen from './launch/SplashScreen';
 export { ErrorRecovery };
@@ -13,7 +12,6 @@ export { default as Linking } from './Linking/Linking';
 export { default as Notifications } from './Notifications/Notifications';
 // The following should all be extracted from this package
 export { AR };
-export { ScreenOrientation };
 export { SplashScreen };
 export { Updates };
 export { default as AppLoading } from './launch/AppLoading';
@@ -129,6 +127,8 @@ Print,
 PublisherBanner, 
 // @ts-ignore
 Random, 
+// @ts-ignore
+ScreenOrientation, 
 // @ts-ignore
 SecureStore, 
 // @ts-ignore

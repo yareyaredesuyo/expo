@@ -20,6 +20,7 @@ import expo.modules.brightness.BrightnessPackage;
 import expo.modules.calendar.CalendarPackage;
 import expo.modules.camera.CameraPackage;
 import expo.modules.cellular.CellularPackage;
+import expo.modules.screenorientation.ScreenOrientationPackage;
 import expo.modules.sharing.SharingPackage;
 import expo.modules.constants.ConstantsPackage;
 import expo.modules.contacts.ContactsPackage;
@@ -100,6 +101,7 @@ public class ExperiencePackagePicker {
       new RandomPackage(),
       new SMSPackage(),
       new SQLitePackage(),
+      new ScreenOrientationPackage(),
       new SecureStorePackage(),
       new SegmentPackage(),
       new SensorsPackage(),

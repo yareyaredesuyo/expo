@@ -13,8 +13,11 @@
 #import "EXKernel.h"
 #import "EXKernelUtil.h"
 #import "EXReactAppManager.h"
+#import "EXScreenOrientationRegistry.h"
 #import "EXScreenOrientationManager.h"
+#import "EXVersions.h"
 #import "EXUpdatesManager.h"
+#import "UMModuleRegistryProvider.h"
 
 #import <React/RCTUtils.h>
 
@@ -315,6 +318,32 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations
 {
+  NSString *validatedVersion = [[EXVersions sharedInstance] availableSdkVersionForManifest:_appRecord.appLoader.manifest];
+  if ([@[@"33.0.0", @"34.0.0", @"35.0.0"] containsObject:validatedVersion]) {
+    return [self legacySupportedOrientationsLogic];
+  }
+  
+  if (_appRecord.experienceId == nil) {
+    return UIInterfaceOrientationMaskAllButUpsideDown;
+  }
+  EXScreenOrientationRegistry *registry = (EXScreenOrientationRegistry *)[UMModuleRegistryProvider getSingletonModuleForClass:[EXScreenOrientationRegistry class]];
+  if ([registry doesKeyExistForAppId:_appRecord.experienceId]) {
+    return [registry getOrientationMaskForAppId:_appRecord.experienceId];
+  } else if (_appRecord.appLoader.manifest) {
+    NSString *orientationConfig = _appRecord.appLoader.manifest[@"orientation"];
+    if ([orientationConfig isEqualToString:@"portrait"]) {
+      // lock to portrait
+      return UIInterfaceOrientationMaskPortrait;
+    } else if ([orientationConfig isEqualToString:@"landscape"]) {
+      // lock to landscape
+      return UIInterfaceOrientationMaskLandscape;
+    }
+  }
+  // no config or default value: allow autorotation
+  return UIInterfaceOrientationMaskAllButUpsideDown;
+}
+
+- (UIInterfaceOrientationMask)legacySupportedOrientationsLogic {
   if (_supportedInterfaceOrientations != EX_INTERFACE_ORIENTATION_USE_MANIFEST) {
     return _supportedInterfaceOrientations;
   }

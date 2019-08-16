@@ -5,7 +5,6 @@ import {
   Orientation,
   OrientationChangeEvent,
   OrientationChangeListener,
-  OrientationInfo,
   OrientationLock,
   PlatformOrientationInfo,
   SizeClassIOS,
@@ -16,7 +15,6 @@ export {
   Orientation,
   OrientationLock,
   SizeClassIOS,
-  OrientationInfo,
   PlatformOrientationInfo,
   OrientationChangeListener,
   OrientationChangeEvent,
@@ -116,7 +114,7 @@ export async function unlockAsync(): Promise<void> {
   await ExpoScreenOrientation.unlockAsync();
 }
 
-export async function getOrientationAsync(): Promise<OrientationInfo> {
+export async function getOrientationAsync(): Promise<Orientation> {
   if (!ExpoScreenOrientation.getOrientationAsync) {
     throw new UnavailabilityError('ScreenOrientation', 'getOrientationAsync');
   }
@@ -188,19 +186,19 @@ export function addOrientationChangeListener(listener: OrientationChangeListener
   const subscription = _orientationChangeEmitter.addListener(
     getEventName(),
     async (update: OrientationChangeEvent) => {
-      let orientationInfo, orientationLock;
+      let orientation, orientationLock;
       if (Platform.OS === 'ios' || Platform.OS === 'web') {
         // For iOS, RN relies on statusBarOrientation (deprecated) to emit `didUpdateDimensions` event, so we emit our own `expoDidUpdateDimensions` event instead
         orientationLock = update.orientationLock;
-        orientationInfo = update.orientationInfo;
+        orientation = update.orientation;
       } else {
         // We rely on the RN Dimensions to emit the `didUpdateDimensions` event on Android
-        [orientationLock, orientationInfo] = await Promise.all([
+        [orientationLock, orientation] = await Promise.all([
           getOrientationLockAsync(),
           getOrientationAsync(),
         ]);
       }
-      listener({ orientationInfo, orientationLock });
+      listener({ orientation, orientationLock });
     }
   );
   _orientationChangeSubscribers.push(subscription);

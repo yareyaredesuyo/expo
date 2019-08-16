@@ -15,6 +15,7 @@
 #import "EXScopedSegment.h"
 #import "EXScopedLocalAuthentication.h"
 #import "EXScopedBranch.h"
+#import "EXScopedScreenOrientation.h"
 
 #import "EXScopedReactNativeAdapter.h"
 #import "EXModuleRegistryBinding.h"
@@ -98,6 +99,11 @@
   EXTaskManager *taskManagerModule = [[EXTaskManager alloc] initWithExperienceId:experienceId];
   [moduleRegistry registerInternalModule:taskManagerModule];
   [moduleRegistry registerExportedModule:taskManagerModule];
+#endif
+  
+#if __has_include(<EXScreenOrientation/EXScreenOrientationModule.h>)
+  EXScopedScreenOrientation *screenOrientation = [[EXScopedScreenOrientation alloc] initWithExperienceId:experienceId];
+  [moduleRegistry registerExportedModule:screenOrientation];
 #endif
 
   return moduleRegistry;
