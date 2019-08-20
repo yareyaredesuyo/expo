@@ -88,6 +88,7 @@ const operationModesOptions: { [key in OperationMode]: OperationModeOptions } = 
 }
 
 const initialNamedPreviewSizes: NamedPreviewSize[] = [
+  { name: 'CustomScaled', previewSize: { width: Dimensions.get('window').width * 0.8, height: Dimensions.get('window').height * 0.4 } },
   { name: 'AbsoluteFill', previewSize: StyleSheet.absoluteFillObject },
 ]
 
@@ -249,7 +250,7 @@ export default class Camera extends React.PureComponent<{}, State> {
             expandedAction={topActionExpanded}
           />
         </View>
-        <View style={[styles.actionsContainer, styles.bottomActionsContainer]}>
+        {/* <View style={[styles.actionsContainer, styles.bottomActionsContainer]}>
           <ExpandableContainer expanded={this.state.bottomSupportingMenuExpanded}>
             <View style={styles.bottomSupportingMenuContainer}>
 
@@ -266,13 +267,13 @@ export default class Camera extends React.PureComponent<{}, State> {
               firstItem={0}
               itemWidth={100}
               sliderWidth={Dimensions.get('window').width}
-            /> */}
+            /> /}
           </View>
           <View style={styles.cameraActionsContainer}>
             <CameraActionButton style={styles.cameraActionButton}/>
             <ChangeFacingButton style={styles.changeFacingButton}/>
           </View>
-        </View>
+        </View> */}
       </View>
     )
   }
@@ -342,7 +343,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
   },
   cameraPreview: {
-    opacity: 0.2,
+    opacity: 1.0,
   },
   bottomSupportingMenuContainer: {
     flex: 1,
