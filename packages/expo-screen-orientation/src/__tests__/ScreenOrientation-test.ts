@@ -105,9 +105,7 @@ describe(`iOS screen orientation`, () => {
       ...badProperties,
     });
 
-    expect(ExpoScreenOrientation.lockPlatformAsync).toBeCalledWith(
-      screenOrientationArrayIOS
-    );
+    expect(ExpoScreenOrientation.lockPlatformAsync).toBeCalledWith(screenOrientationArrayIOS);
   });
 
   it(`throws when lockPlatformAsync is called with unsupported types in its iOS properties`, async () => {
