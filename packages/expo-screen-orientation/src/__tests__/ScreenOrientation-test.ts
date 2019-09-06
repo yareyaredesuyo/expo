@@ -1,7 +1,9 @@
-import { NativeModules } from 'react-native';
+import { NativeModulesProxy } from '@unimodules/core';
 import { mockPlatformAndroid, mockPlatformIOS, unmockAllProperties } from 'jest-expo';
 
 import * as ScreenOrientation from 'expo-screen-orientation';
+
+const { ExpoScreenOrientation } = NativeModulesProxy;
 
 it(`throws when lockAsync is called with an unsupported type`, async () => {
   await expect(ScreenOrientation.lockAsync(NaN as any)).rejects.toThrowError(TypeError);
@@ -10,7 +12,7 @@ it(`throws when lockAsync is called with an unsupported type`, async () => {
 
 it(`NativeModules.lockAsync is not called with known unsupported locks`, async () => {
   await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.OTHER);
-  expect(NativeModules.ExpoScreenOrientation.lockAsync).not.toHaveBeenCalled();
+  expect(ExpoScreenOrientation.lockAsync).not.toHaveBeenCalled();
 });
 
 it(`throws when supportsOrientationLockAsync is called with an unsupported type`, async () => {
@@ -60,7 +62,7 @@ describe(`Android screen orientation`, () => {
       ...badProperties,
     });
 
-    expect(NativeModules.ExpoScreenOrientation.lockPlatformAsync).toBeCalledWith(
+    expect(ExpoScreenOrientation.lockPlatformAsync).toBeCalledWith(
       screenOrientationConstantAndroid
     );
   });
@@ -103,7 +105,7 @@ describe(`iOS screen orientation`, () => {
       ...badProperties,
     });
 
-    expect(NativeModules.ExpoScreenOrientation.lockPlatformAsync).toBeCalledWith(
+    expect(ExpoScreenOrientation.lockPlatformAsync).toBeCalledWith(
       screenOrientationArrayIOS
     );
   });
