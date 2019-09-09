@@ -44,7 +44,7 @@ UM_EXPORT_METHOD_AS(lockAsync,
   if (![self doesSupportOrientationMask:orientationMask]) {
     return reject(@"ERR_SCREEN_ORIENTATION_UNSUPPORTED_ORIENTATION_LOCK", [NSString stringWithFormat:@"This device does not support this orientation %@", [self orientationLockToString:orientationLock]], nil);
   }
-  [self setOrienatationMask:orientationMask];
+  [self setOrientationMask:orientationMask];
   [self enforceDesiredDeviceOrientationWithOrientationMask:orientationMask];
   resolve(nil);
 }
@@ -61,7 +61,7 @@ UM_EXPORT_METHOD_AS(lockPlatformAsync,
     UIInterfaceOrientationMask orientationMask = [self orientationJSToNative: [self stringToOrientation:allowedOrientation]];
     allowedOrientationsMask = allowedOrientationsMask | orientationMask;
   }
-  [self setOrienatationMask:allowedOrientationsMask];
+  [self setOrientationMask:allowedOrientationsMask];
   [self enforceDesiredDeviceOrientationWithOrientationMask:allowedOrientationsMask];
   resolve(nil);
 }
@@ -206,7 +206,7 @@ UM_EXPORT_METHOD_AS(getOrientationAsync,
   return [[self getRegistry] getOrientationMaskForAppId:defaultAppId];
 }
 
-- (void)setOrienatationMask:(UIInterfaceOrientationMask)mask
+- (void)setOrientationMask:(UIInterfaceOrientationMask)mask
 {
   return [[self getRegistry] setOrientationMask:mask forAppId:defaultAppId];
 }

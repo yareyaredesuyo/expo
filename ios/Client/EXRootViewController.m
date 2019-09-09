@@ -40,6 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @synthesize supportedInterfaceOrientations = _supportedInterfaceOrientations;
 
+
 - (instancetype)init
 {
   if (self = [super init]) {

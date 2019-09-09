@@ -3,7 +3,7 @@
 #import <UMCore/UMEventEmitter.h>
 #import <UMCore/UMExportedModule.h>
 #import <UMCore/UMModuleRegistryConsumer.h>
-#import "EXScreenOrientationRegistry.h"
+#import <EXScreenOrientation/EXScreenOrientationRegistry.h>
 
 @interface EXScreenOrientationModule : UMExportedModule <UMModuleRegistryConsumer, UMEventEmitter>
 typedef NS_ENUM(NSInteger, EXOrientation) {
@@ -30,7 +30,7 @@ typedef NS_ENUM(NSInteger, EXOrientationLock) {
 };
 
 - (UIInterfaceOrientationMask)getOrientationMask;
-- (void)setOrienatationMask:(UIInterfaceOrientationMask)mask;
+- (void)setOrientationMask:(UIInterfaceOrientationMask)mask;
 - (EXScreenOrientationRegistry *)getRegistry;
 + (UIInterfaceOrientationMask)getSupportedInterfaceOrientationsWithDefault:(UIInterfaceOrientationMask)defaultMask;
 

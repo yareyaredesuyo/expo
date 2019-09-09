@@ -206,27 +206,6 @@ UM_REGISTER_MODULE();
   }
 }
 
-// taken from https://stackoverflow.com/questions/46192280/detect-if-the-device-is-iphone-x
-// Check if the device has a notch.
-+ (BOOL)doesDeviceHaveNotch{
-  if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-    switch ((int)[[UIScreen mainScreen] nativeBounds].size.height) {
-      case 1136:
-      case 1334:
-      case 1920:
-      case 2208:
-        return NO;
-      case 2436:
-      case 2688:
-      case 1792:
-        return YES;
-      default:
-        return NO;
-    }
-  }
-  return NO;
-}
-
 @end
 
 UIApplication * UMSharedApplication(void)

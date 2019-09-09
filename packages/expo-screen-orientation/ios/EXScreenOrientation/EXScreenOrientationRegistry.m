@@ -1,6 +1,6 @@
 // Copyright 2019-present 650 Industries. All rights reserved.
 
-#import "EXScreenOrientationRegistry.h"
+#import <EXScreenOrientation/EXScreenOrientationRegistry.h>
 #import <UMCore/UMDefines.h>
 
 @implementation EXScreenOrientationRegistry

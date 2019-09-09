@@ -32,9 +32,7 @@ export default class ScreenOrientationScreen extends React.Component<
     );
 
     const [orientation, orientationLock] = await Promise.all([
-      ScreenOrientation.getOrientationAsync().then(
-        (orientation) => orientation
-      ),
+      ScreenOrientation.getOrientationAsync(),
       ScreenOrientation.getOrientationLockAsync(),
     ]);
     // update state
@@ -46,7 +44,7 @@ export default class ScreenOrientationScreen extends React.Component<
 
   updateOrientationAsync = async () => {
     this.setState({
-      orientation: (await ScreenOrientation.getOrientationAsync()),
+      orientation: await ScreenOrientation.getOrientationAsync(),
     });
   }
 

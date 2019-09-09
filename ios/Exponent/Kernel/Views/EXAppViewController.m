@@ -13,11 +13,11 @@
 #import "EXKernel.h"
 #import "EXKernelUtil.h"
 #import "EXReactAppManager.h"
-#import "EXScreenOrientationRegistry.h"
+#import <EXScreenOrientation/EXScreenOrientationRegistry.h>
 #import "EXScreenOrientationManager.h"
 #import "EXVersions.h"
 #import "EXUpdatesManager.h"
-#import "UMModuleRegistryProvider.h"
+#import <UMCore/UMModuleRegistryProvider.h>
 
 #import <React/RCTUtils.h>
 
@@ -320,7 +320,7 @@ NS_ASSUME_NONNULL_BEGIN
 {
   NSString *validatedVersion = [[EXVersions sharedInstance] availableSdkVersionForManifest:_appRecord.appLoader.manifest];
   if ([@[@"33.0.0", @"34.0.0", @"35.0.0"] containsObject:validatedVersion]) {
-    return [self legacySupportedOrientationsLogic];
+    return [self legacySupportedInterfaceOrientations];
   }
   
   if (_appRecord.experienceId == nil) {
@@ -343,7 +343,7 @@ NS_ASSUME_NONNULL_BEGIN
   return UIInterfaceOrientationMaskAllButUpsideDown;
 }
 
-- (UIInterfaceOrientationMask)legacySupportedOrientationsLogic {
+- (UIInterfaceOrientationMask)legacySupportedInterfaceOrientations {
   if (_supportedInterfaceOrientations != EX_INTERFACE_ORIENTATION_USE_MANIFEST) {
     return _supportedInterfaceOrientations;
   }

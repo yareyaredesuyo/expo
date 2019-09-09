@@ -12,7 +12,6 @@
 + (nullable UIColor *)UIColor:(nullable id)json;
 + (nullable NSDate *)NSDate:(nullable id)json;
 + (nonnull NSString *)hexStringWithCGColor:(nonnull CGColorRef)color;
-+ (BOOL)doesDeviceHaveNotch;
 
 - (nullable UIViewController *)currentViewController;
 - (nullable NSDictionary *)launchOptions;

@@ -25,7 +25,7 @@
   return [[self getRegistry] getOrientationMaskForAppId:_experienceId];
 }
 
-- (void)setOrienatationMask:(UIInterfaceOrientationMask)mask
+- (void)setOrientationMask:(UIInterfaceOrientationMask)mask
 {
   return [[self getRegistry] setOrientationMask:mask forAppId:_experienceId];
 }
