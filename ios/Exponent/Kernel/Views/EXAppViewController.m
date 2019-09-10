@@ -319,7 +319,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations
 {
   NSString *validatedVersion = [[EXVersions sharedInstance] availableSdkVersionForManifest:_appRecord.appLoader.manifest];
-  if ([@[@"33.0.0", @"34.0.0", @"35.0.0"] containsObject:validatedVersion]) {
+  NSString *majorSDKVersion = [validatedVersion componentsSeparatedByString:@"."][0];
+  if ([validatedVersion length] != 0 && [majorSDKVersion integerValue] <= 35) {
     return [self legacySupportedInterfaceOrientations];
   }
   

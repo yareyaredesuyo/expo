@@ -18,6 +18,7 @@ import org.unimodules.core.interfaces.services.UIManager;
 
 public class ScreenOrientationModule extends ExportedModule implements LifecycleEventListener {
   private ActivityProvider mActivityProvider;
+  private Integer mInitialOrientation = null;
   static final String ERR_SCREEN_ORIENTATION = "ERR_SCREEN_ORIENTATION";
 
   public ScreenOrientationModule(Context context) {
@@ -37,7 +38,10 @@ public class ScreenOrientationModule extends ExportedModule implements Lifecycle
 
   @Override
   public void onHostResume() {
-
+    Activity activity = mActivityProvider.getCurrentActivity();
+    if (activity != null && mInitialOrientation == null) {
+      mInitialOrientation = activity.getRequestedOrientation();
+    }
   }
 
   @Override
@@ -48,6 +52,14 @@ public class ScreenOrientationModule extends ExportedModule implements Lifecycle
   @Override
   public void onHostDestroy() {
 
+  }
+
+  @Override
+  public void onDestroy() {
+    Activity activity = mActivityProvider.getCurrentActivity();
+    if (activity != null && mInitialOrientation != null) {
+      activity.setRequestedOrientation(mInitialOrientation);
+    }
   }
 
   @ExpoMethod
