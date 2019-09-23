@@ -4504,6 +4504,18 @@ CACHE_KEYS:
     PROJECT_NAME: EXRandom
     SPECS:
       - EXRandom (7.0.0)
+  EXScreenOrientation:
+    BUILD_SETTINGS_CHECKSUM:
+      EXScreenOrientation: 4fb3e7bdf405708d32ed710ca77fc927
+    CHECKSUM: 64d2a99623fc4bfa6cb3163eb63a2d2d75ee98ab
+    FILES:
+      - "../../packages/expo-screen-orientation/ios/EXScreenOrientation/EXScreenOrientationModule.h"
+      - "../../packages/expo-screen-orientation/ios/EXScreenOrientation/EXScreenOrientationModule.m"
+      - "../../packages/expo-screen-orientation/ios/EXScreenOrientation/EXScreenOrientationRegistry.h"
+      - "../../packages/expo-screen-orientation/ios/EXScreenOrientation/EXScreenOrientationRegistry.m"
+    PROJECT_NAME: EXScreenOrientation
+    SPECS:
+      - EXScreenOrientation (1.0.0)
   EXSecureStore:
     BUILD_SETTINGS_CHECKSUM:
       EXSecureStore: 230746e113d9485824b9ab198f2f6a53
@@ -4884,16 +4896,16 @@ CACHE_KEYS:
       - nanopb/encode (0.3.901)
   Pods-Exponent:
     BUILD_SETTINGS_CHECKSUM:
-      Debug: 8330470a4b972f337f979a8e2755d71a
-      Release: 8330470a4b972f337f979a8e2755d71a
+      Debug: be47f5797e5bf80e78040af7947926e3
+      Release: be47f5797e5bf80e78040af7947926e3
   Pods-ExponentIntegrationTests:
     BUILD_SETTINGS_CHECKSUM:
-      Debug: 1aeb8b1ccac3cd876fdb52df41d00242
-      Release: 1aeb8b1ccac3cd876fdb52df41d00242
+      Debug: a4e6cae5e75c09f73162e87db22a447e
+      Release: a4e6cae5e75c09f73162e87db22a447e
   Pods-Tests:
     BUILD_SETTINGS_CHECKSUM:
-      Debug: 1aeb8b1ccac3cd876fdb52df41d00242
-      Release: 1aeb8b1ccac3cd876fdb52df41d00242
+      Debug: a4e6cae5e75c09f73162e87db22a447e
+      Release: a4e6cae5e75c09f73162e87db22a447e
   Protobuf:
     BUILD_SETTINGS_CHECKSUM:
       Protobuf: 984e9f934a23b843d02efe3856627b34

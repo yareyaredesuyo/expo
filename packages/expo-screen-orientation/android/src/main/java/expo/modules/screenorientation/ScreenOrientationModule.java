@@ -19,7 +19,11 @@ import org.unimodules.core.interfaces.services.UIManager;
 public class ScreenOrientationModule extends ExportedModule implements LifecycleEventListener {
   private ActivityProvider mActivityProvider;
   private Integer mInitialOrientation = null;
-  static final String ERR_SCREEN_ORIENTATION = "ERR_SCREEN_ORIENTATION";
+  static final String ERR_SCREEN_ORIENTATION_UNSUPPORTED_ORIENTATION_LOCK = "ERR_SCREEN_ORIENTATION_UNSUPPORTED_ORIENTATION_LOCK";
+  static final String ERR_SCREEN_ORIENTATION_INVALID_ORIENTATION_LOCK = "ERR_SCREEN_ORIENTATION_INVALID_ORIENTATION_LOCK";
+  static final String ERR_SCREEN_ORIENTATION_GET_ORIENTATION = "ERR_SCREEN_ORIENTATION_GET_ORIENTATION";
+  static final String ERR_SCREEN_ORIENTATION_GET_ORIENTATION_LOCK = "ERR_SCREEN_ORIENTATION_GET_ORIENTATION_LOCK";
+  static final String ERR_SCREEN_ORIENTATION_GET_PLATFORM_ORIENTATION_LOCK = "ERR_SCREEN_ORIENTATION_GET_PLATFORM_ORIENTATION_LOCK";
 
   public ScreenOrientationModule(Context context) {
     super(context);
@@ -71,13 +75,13 @@ public class ScreenOrientationModule extends ExportedModule implements Lifecycle
       int orientationAttr = orientationLockJSToNative(orientationLock);
       activity.setRequestedOrientation(orientationAttr);
     } catch (IllegalArgumentException e) {
-      promise.reject("ERR_SCREEN_ORIENTATION_INVALID_ORIENTATION_LOCK", "An invalid OrientationLock was passed in: " + orientationLockStr, e);
+      promise.reject(ERR_SCREEN_ORIENTATION_INVALID_ORIENTATION_LOCK, "An invalid OrientationLock was passed in: " + orientationLockStr, e);
       return;
     } catch (InvalidArgumentException e) {
       promise.reject(e);
       return;
     } catch (Exception e) {
-      promise.reject(ERR_SCREEN_ORIENTATION, "Could not apply the ScreenOrientation lock: " + orientationLockStr, e);
+      promise.reject(ERR_SCREEN_ORIENTATION_UNSUPPORTED_ORIENTATION_LOCK, "Could not apply the ScreenOrientation lock: " + orientationLockStr, e);
       return;
     }
     promise.resolve(null);
@@ -90,11 +94,10 @@ public class ScreenOrientationModule extends ExportedModule implements Lifecycle
     try {
       activity.setRequestedOrientation(orientationAttr);
     } catch (Exception e) {
-      promise.reject(ERR_SCREEN_ORIENTATION, "Could not apply the ScreenOrientation platform lock: " + orientationAttr, e);
+      promise.reject(ERR_SCREEN_ORIENTATION_UNSUPPORTED_ORIENTATION_LOCK, "Could not apply the ScreenOrientation platform lock: " + orientationAttr, e);
       return;
     }
     promise.resolve(null);
-
   }
 
   @ExpoMethod
@@ -110,7 +113,7 @@ public class ScreenOrientationModule extends ExportedModule implements Lifecycle
       Orientation orientation = getScreenOrientation(activity);
       promise.resolve(orientation.toString()); // may not work
     } catch (Exception e) {
-      promise.reject(ERR_SCREEN_ORIENTATION, "Could not get the current screen orientation", e);
+      promise.reject(ERR_SCREEN_ORIENTATION_GET_ORIENTATION, "Could not get the current screen orientation", e);
     }
   }
 
@@ -123,7 +126,7 @@ public class ScreenOrientationModule extends ExportedModule implements Lifecycle
       OrientationLock orientationLock = orientationLockNativeToJS(orientationAttr);
       promise.resolve(orientationLock.toString());
     } catch (Exception e) {
-      promise.reject(ERR_SCREEN_ORIENTATION, "Could not get the current screen orientation lock", e);
+      promise.reject(ERR_SCREEN_ORIENTATION_GET_ORIENTATION_LOCK, "Could not get the current screen orientation lock", e);
     }
 
   }
@@ -134,7 +137,7 @@ public class ScreenOrientationModule extends ExportedModule implements Lifecycle
     try {
       promise.resolve(activity.getRequestedOrientation());
     } catch (Exception e) {
-      promise.reject(ERR_SCREEN_ORIENTATION, "Could not get the current screen orientation platform lock", e);
+      promise.reject(ERR_SCREEN_ORIENTATION_GET_PLATFORM_ORIENTATION_LOCK, "Could not get the current screen orientation platform lock", e);
     }
 
   }
@@ -210,8 +213,10 @@ public class ScreenOrientationModule extends ExportedModule implements Lifecycle
   }
 
   public enum Orientation {
+    PORTRAIT,
     PORTRAIT_UP,
     PORTRAIT_DOWN,
+    LANDSCAPE,
     LANDSCAPE_LEFT,
     LANDSCAPE_RIGHT,
     UNKNOWN;
