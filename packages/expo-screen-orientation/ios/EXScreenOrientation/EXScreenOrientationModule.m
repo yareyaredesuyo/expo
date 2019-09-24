@@ -11,16 +11,15 @@
 @interface EXScreenOrientationModule ()
 
 @property (nonatomic, weak) UMModuleRegistry *moduleRegistry;
-@property (nonatomic, weak) id <UMEventEmitterService> eventEmitter;
+@property (nonatomic, weak) id<UMEventEmitterService> eventEmitter;
+@property (nonatomic) bool hasListeners;
 
 @end
 
 static int INVALID_MASK = 0;
 static NSString *defaultAppId = @"bareAppId";
 
-@implementation EXScreenOrientationModule{
-  bool hasListeners;
-}
+@implementation EXScreenOrientationModule
 
 UM_EXPORT_MODULE(ExpoScreenOrientation);
 
@@ -28,7 +27,7 @@ UM_EXPORT_MODULE(ExpoScreenOrientation);
 {
   _moduleRegistry = moduleRegistry;
   _eventEmitter = [moduleRegistry getModuleImplementingProtocol:@protocol(UMEventEmitterService)];
-  hasListeners = NO;
+  _hasListeners = NO;
 }
 
 UM_EXPORT_METHOD_AS(lockAsync,
@@ -132,7 +131,7 @@ UM_EXPORT_METHOD_AS(getOrientationAsync,
                     getOrientationAsyncResolver:(UMPromiseResolveBlock)resolve
                     rejecter:(UMPromiseRejectBlock)reject)
 {
-  resolve([self UIDeviceOrientationToUIINterfaceOrientation:[UIDevice currentDevice].orientation]);
+  resolve([self UIDeviceOrientationToUIInterfaceOrientation:[UIDevice currentDevice].orientation]);
 }
 
 + (NSDictionary *)getStringToOrientationJSDict
@@ -219,13 +218,13 @@ UM_EXPORT_METHOD_AS(getOrientationAsync,
 // Will be called when this module's first listener is added.
 - (void)startObserving
 {
-  if(!hasListeners){
-    hasListeners = YES;
+  if(!_hasListeners){
+    _hasListeners = YES;
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-    [[NSNotificationCenter defaultCenter]
-     addObserver:self selector:@selector(handleScreenOrientationChange:)
-     name:UIDeviceOrientationDidChangeNotification
-     object:[UIDevice currentDevice]];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleScreenOrientationChange:)
+                                                 name:UIDeviceOrientationDidChangeNotification
+                                               object:[UIDevice currentDevice]];
   }
 }
 
@@ -238,13 +237,13 @@ UM_EXPORT_METHOD_AS(getOrientationAsync,
 //  }
 }
 
-- (void)handleScreenOrientationChange:(NSNotification *)note
+- (void)handleScreenOrientationChange:(NSNotification *)notification
 {
-  if (hasListeners) {
-    UIDevice *device = note.object;
+  if (_hasListeners) {
+    UIDevice *device = notification.object;
     EXOrientationLock orientationLock = [self orientationLockNativeToJS:[self getOrientationMask]];
     [_eventEmitter sendEventWithName:@"expoDidUpdateDimensions" body:@{
-                                                              @"orientation": [self UIDeviceOrientationToUIINterfaceOrientation:device.orientation],
+                                                              @"orientation": [self UIDeviceOrientationToUIInterfaceOrientation:device.orientation],
                                                               @"orientationLock": [self orientationLockToString:orientationLock]
                                                               }];
   }
@@ -418,7 +417,7 @@ UM_EXPORT_METHOD_AS(getOrientationAsync,
 }
 
 // UIDevice and UIInterface landscape orientations are switched https://developer.apple.com/documentation/uikit/uiinterfaceorientation/uiinterfaceorientationlandscaperight?language=objc
-- (NSString *)UIDeviceOrientationToUIINterfaceOrientation:(UIDeviceOrientation)deviceOrientation
+- (NSString *)UIDeviceOrientationToUIInterfaceOrientation:(UIDeviceOrientation)deviceOrientation
 {
     switch (deviceOrientation) {
       case UIDeviceOrientationPortrait:
