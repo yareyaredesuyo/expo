@@ -33,7 +33,6 @@ export async function lockPlatformAsync(options) {
     }
     const { screenOrientationConstantAndroid, screenOrientationArrayIOS, screenOrientationLockWeb, } = options;
     let platformOrientationParam;
-    console.error(Platform.OS);
     if (Platform.OS === 'android' && screenOrientationConstantAndroid) {
         if (isNaN(screenOrientationConstantAndroid)) {
             throw new TypeError(`lockPlatformAsync Android platform: screenOrientationConstantAndroid cannot be called with ${screenOrientationConstantAndroid}`);
