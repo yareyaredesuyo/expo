@@ -41,9 +41,16 @@
 
 ## 2. Update React Native
 
-**Why:**
+**Why:** Once we consider a newer React Native version stable enough and worth upgrading in the new SDK version, we will need to pull changes from the original React Native into our fork.
 
 **How:**
+
+- Go to `react-native-lab/react-native` submodule directory, checkout to master branch and pull changes.
+- Pull changes from the original repository: `git pull https://github.com/facebook/react-native COMMIT_REF` where `COMMIT_REF` can be a specific commit hash or a branch name. We usually want to pull from the release branch, so for example for version 0.61.x we would use `0.61-stable`.
+- Resolve conflicts carefully, if you are not sure ask someone else from the team what to do.
+- Create a release branch
+- Push changes to our remote fork and then exit from React Native submodule folder, add submodule change to the index and commit it.
+- _TODO: On Android we need to do some more steps. Probably this should be done by a separate tool?_
 
 ## 3. Versioning code for the new SDK
 
@@ -60,7 +67,7 @@
   - Let the `add-sdk` script to regenerate Podfile and reinstall pods, then try to build the project in Xcode. This script does most of the work, but usually breaks in various ways, partly because some assumptions change every SDK cycle. If you found anything broken, please keep versioning script up to date.
   - Submit a pull request with versioned code to `master` branch.
 - **Android**:
-  - *todo*
+  - _todo_
 
 # Stage 2 - QA and prerelease
 
@@ -84,7 +91,7 @@
 | [4. Quality Assurance](#4-quality-assurance) |
 
 **Why:** In managed Expo workflow, we use our forked `react-native` repo. The submodule under `react-native-lab/react-native` is the source of truth for `react-native` version used throughout the repository. We will use it in later steps.
-    
+
 **How:**
 
 - Create a new branch for new SDK in our `react-native` fork (`sdk-XX` typically) and point the submodule to latest commit on that branch.
@@ -98,7 +105,7 @@
 | -------------------------------------------- |
 | [4. Quality Assurance](#4-quality-assurance) |
 
-**Why:**
+**Why:** To properly test project templates, we need to release prerelease versions of the packages. This is also a good way to let our users install them before an actual release (bare workflow only).
 
 **How:**
 
@@ -160,22 +167,9 @@
 
 **How:**
 
-- From the release branch, create a simulator Release build using `fastlane ios create_simulator_build`.
-- Make sure there are no errors in fastlane command. Its design is pretty bad and it's possible you won't notice errors.
-- Install, launch and test this new simulator build.
-  ```
-  xcrun simctl install booted /path/to/your/Exponent.app
-  xcrun simctl launch booted host.exp.Exponent
-  ```
-- Set the `AWS_BUCKET` env variable to `exp-ios-simulator-apps`
-- Upload the build by running:
-  ```
-  et ios-add-simulator-build --app [Path to .app] --appVersion [version]`
-  ```
-  - `[Path to .app]` refers to the `Exponent.app` archive you created in step 1.
-  - `[version]` refers to the short iOS version string, such as `2.4.4`.
-  - You might need to [set your AWS credentials](https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/credentials.html), if you haven't done so yet.
-- When you're ready to sync the versions change from step 2 to production, run `et promote-versions`.
+- Open CircleCI on the release branch and go to the `client` workflow. Once `client_ios` job is finished, approve `client_ios_simulator_release_approve` job and follow the next job `client_ios_simulator_release` which takes and uploads the artifact archive from `client_ios` job to staging.
+- Test if this simulator build works as expected. You can install and launch it using expotools command `et client-install -p ios`.
+- When you're ready to sync the versions change to production, run `et promote-versions`.
 
 ## 11. Submitting to the stores
 
@@ -198,9 +192,10 @@
 
 ## 12. Update versions endpoint
 
-**Why:** 
+**Why:**
 
 **How:**
+
 - Run `et update-versions -k 'packagesToInstallWhenEjecting.react-native-unimodules' -v 'X.Y.Z'` where `X.Y.Z` is the version of `react-native-unimodules` that is going to be used in ejected and standalone apps using this new SDK version.
 - Promote versions config from staging to production: `et promote-versions`.
 
@@ -277,3 +272,9 @@
 - On a new branch, check all `expo-template-*` packages under `templates` directory and bump dependencies versions wherever possible. Use versions stored in `packages/expo/bundledNativeModules.json` for vendored libs like `react-native-gesture-handler`.
 - Run `et publish-templates` and answer to questions it asks.
 - Create a pull request from your branch to `master`. Make sure a reviewer will cherry-pick that commit to the release branch as well.
+
+# Stage 6 - Announcements
+
+## 19. Publish a blog post
+
+## 20. Post on social medias
