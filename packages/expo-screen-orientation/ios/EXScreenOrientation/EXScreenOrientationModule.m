@@ -131,7 +131,9 @@ UM_EXPORT_METHOD_AS(getOrientationAsync,
                     getOrientationAsyncResolver:(UMPromiseResolveBlock)resolve
                     rejecter:(UMPromiseRejectBlock)reject)
 {
-  resolve([self UIDeviceOrientationToUIInterfaceOrientation:[UIDevice currentDevice].orientation]);
+  dispatch_async(dispatch_get_main_queue(), ^{
+    resolve([self UIInterfaceOrientationToEXOrientation:[UIApplication sharedApplication].statusBarOrientation]);
+  });
 }
 
 + (NSDictionary *)getStringToOrientationJSDict
@@ -224,7 +226,7 @@ UM_EXPORT_METHOD_AS(getOrientationAsync,
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleScreenOrientationChange:)
                                                  name:UIDeviceOrientationDidChangeNotification
-                                               object:[UIDevice currentDevice]];
+                                               object:nil];
   }
 }
 
@@ -240,12 +242,13 @@ UM_EXPORT_METHOD_AS(getOrientationAsync,
 - (void)handleScreenOrientationChange:(NSNotification *)notification
 {
   if (_hasListeners) {
-    UIDevice *device = notification.object;
-    EXOrientationLock orientationLock = [self orientationLockNativeToJS:[self getOrientationMask]];
-    [_eventEmitter sendEventWithName:@"expoDidUpdateDimensions" body:@{
-                                                              @"orientation": [self UIDeviceOrientationToUIInterfaceOrientation:device.orientation],
-                                                              @"orientationLock": [self orientationLockToString:orientationLock]
-                                                              }];
+    dispatch_async(dispatch_get_main_queue(), ^{
+      EXOrientationLock orientationLock = [self orientationLockNativeToJS:[self getOrientationMask]];
+      [self->_eventEmitter sendEventWithName:@"expoDidUpdateDimensions" body:@{
+                                                                @"orientation": [self UIInterfaceOrientationToEXOrientation:[UIApplication sharedApplication].statusBarOrientation],
+                                                                @"orientationLock": [self orientationLockToString:orientationLock]
+                                                                }];
+    });
   }
 }
 
@@ -433,6 +436,22 @@ UM_EXPORT_METHOD_AS(getOrientationAsync,
     }
 }
 
+- (NSString *)UIInterfaceOrientationToEXOrientation:(UIInterfaceOrientation)screenOrientation
+{
+    switch (screenOrientation) {
+      case UIInterfaceOrientationPortrait:
+        return [self orientationToString:EXOrientationPortraitUp];
+      case UIInterfaceOrientationPortraitUpsideDown:
+        return [self orientationToString:EXOrientationPortraitDown];
+      case UIInterfaceOrientationLandscapeRight:
+        return [self orientationToString:EXOrientationLandscapeRight];
+      case UIInterfaceOrientationLandscapeLeft:
+        return [self orientationToString:EXOrientationLandscapeLeft];
+      default:
+        return [self orientationToString:EXOrientationUnknown];
+    }
+}
+
 - (void)enforceDesiredDeviceOrientationWithOrientationMask:(UIInterfaceOrientationMask)orientationMask
 {
   dispatch_async(dispatch_get_main_queue(), ^{
@@ -474,17 +493,6 @@ UM_EXPORT_METHOD_AS(getOrientationAsync,
     }
     [UIViewController attemptRotationToDeviceOrientation];
   });
-}
-
-+ (UIInterfaceOrientationMask)getSupportedInterfaceOrientationsWithDefault:(UIInterfaceOrientationMask)defaultMask
-{
-  EXScreenOrientationRegistry *registry = (EXScreenOrientationRegistry *)[UMModuleRegistryProvider getSingletonModuleForClass:[EXScreenOrientationRegistry class]];
-  if([registry doesKeyExistForAppId:defaultAppId])
-  {
-    return [registry getOrientationMaskForAppId:defaultAppId];
-  }
-  [registry setOrientationMask:defaultMask forAppId:defaultAppId];
-  return defaultMask;
 }
 
 @end

@@ -13,8 +13,7 @@
 
 - (instancetype)initWithExperienceId:(NSString *)experienceId
 {
-  if (self = [super init])
-  {
+  if (self = [super init]) {
     _experienceId = experienceId;
   }
   return self;

@@ -332,13 +332,14 @@ NS_ASSUME_NONNULL_BEGIN
     return [registry getOrientationMaskForAppId:_appRecord.experienceId];
   } else if (_appRecord.appLoader.manifest) {
     NSString *orientationConfig = _appRecord.appLoader.manifest[@"orientation"];
+    UIInterfaceOrientationMask mask = UIInterfaceOrientationMaskAllButUpsideDown;
     if ([orientationConfig isEqualToString:@"portrait"]) {
-      // lock to portrait
-      return UIInterfaceOrientationMaskPortrait;
+      mask = UIInterfaceOrientationMaskPortrait;
     } else if ([orientationConfig isEqualToString:@"landscape"]) {
-      // lock to landscape
-      return UIInterfaceOrientationMaskLandscape;
+      mask = UIInterfaceOrientationMaskLandscape;
     }
+    [registry setOrientationMask:mask forAppId:_appRecord.experienceId];
+    return mask;
   }
   // no config or default value: allow autorotation
   return UIInterfaceOrientationMaskAllButUpsideDown;

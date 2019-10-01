@@ -7,30 +7,33 @@
 
 UM_REGISTER_SINGLETON_MODULE(EXScreenOrientationRegistry)
 
+- (instancetype)init {
+  if (self = [super init]) {
+    _orientationMap = [NSMutableDictionary new];
+  }
+  return self;
+}
+
 - (void)setOrientationMask:(UIInterfaceOrientationMask)orientationMask
           forAppId:(NSString *)appId
 {
-  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-  [userDefaults setInteger:orientationMask forKey:appId];
-  [userDefaults synchronize];
+    _orientationMap[appId] = @((NSUInteger)orientationMask);
 }
 
 - (UIInterfaceOrientationMask)getOrientationMaskForAppId:(NSString *)appId
 {
-  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-  if (![userDefaults objectForKey:appId]) {
+  if (!_orientationMap[appId]) {
     return UIInterfaceOrientationMaskAllButUpsideDown;
   }
-  return [userDefaults integerForKey:appId];
+    return (UIInterfaceOrientationMask)[_orientationMap[appId] integerValue];
 }
 
 - (BOOL)doesKeyExistForAppId:(NSString *)appId
 {
-  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-  if (![userDefaults objectForKey:appId]) {
+  if (!_orientationMap[appId]) {
     return NO;
   }
   return YES;
 }
-
+ 
 @end
