@@ -22,24 +22,24 @@
 - (BOOL)setRecoveryProps:(NSString *)props
 {
   NSUserDefaults *preferences = [NSUserDefaults standardUserDefaults];
-  NSDictionary *errorRecoveryStore = [preferences objectForKey:[self getUserDefaultsKey]];
+  NSDictionary *errorRecoveryStore = [preferences objectForKey:[self userDefaultsKey]];
   if (!errorRecoveryStore) {
     return [EXScopedErrorRecoveryModule updateUserDefaults:preferences
                                     withErrorRecoveryStore:@{ _experienceId: props }
-                                                   withKey:[self getUserDefaultsKey]];
+                                                   withKey:[self userDefaultsKey]];
   } else {
     NSMutableDictionary *propsToSave = [errorRecoveryStore mutableCopy];
     [propsToSave setObject:props forKey:_experienceId];
     return [EXScopedErrorRecoveryModule updateUserDefaults:preferences
                                     withErrorRecoveryStore:propsToSave
-                                                   withKey:[self getUserDefaultsKey]];
+                                                   withKey:[self userDefaultsKey]];
   }
 }
 
 - (NSString *)consumeRecoveryProps
 {
   NSUserDefaults *preferences = [NSUserDefaults standardUserDefaults];
-  NSDictionary *errorRecoveryStore = [preferences objectForKey:[self getUserDefaultsKey]];
+  NSDictionary *errorRecoveryStore = [preferences objectForKey:[self userDefaultsKey]];
   if (errorRecoveryStore) {
     NSString *props = [errorRecoveryStore objectForKey:_experienceId];
     if (props) {
@@ -48,7 +48,7 @@
       
       [EXScopedErrorRecoveryModule updateUserDefaults:preferences
                                withErrorRecoveryStore:storeWithRemovedProps
-                                              withKey:[self getUserDefaultsKey]];
+                                              withKey:[self userDefaultsKey]];
       return props;
     }
   }
@@ -63,9 +63,9 @@
   return [preferences synchronize];
 }
 
-- (NSString *)getUserDefaultsKey
+- (NSString *)userDefaultsKey
 {
-  return [NSString stringWithFormat:@"EX.%@", [super getUserDefaultsKey]];
+  return [NSString stringWithFormat:@"EX.%@", [super userDefaultsKey]];
 }
 @end
 #endif

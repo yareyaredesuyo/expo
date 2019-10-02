@@ -5,7 +5,7 @@
 
 @interface EXErrorRecoveryModule : UMExportedModule
 
-- (NSString *)getUserDefaultsKey;
+- (NSString *)userDefaultsKey;
 
 - (BOOL)setRecoveryProps:(NSString *)props;
 

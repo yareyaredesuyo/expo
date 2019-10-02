@@ -29,22 +29,22 @@ UM_EXPORT_METHOD_AS(saveRecoveryProps,
 - (BOOL)setRecoveryProps:(NSString *)props
 {
   NSUserDefaults *preferences = [NSUserDefaults standardUserDefaults];
-  [preferences setObject:props forKey:[self getUserDefaultsKey]];
+  [preferences setObject:props forKey:[self userDefaultsKey]];
   return [preferences synchronize];
 }
 
 - (NSString *)consumeRecoveryProps
 {
   NSUserDefaults *preferences = [NSUserDefaults standardUserDefaults];
-  NSString *props = [preferences stringForKey:[self getUserDefaultsKey]];
+  NSString *props = [preferences stringForKey:[self userDefaultsKey]];
   if (props) {
-    [preferences removeObjectForKey:[self getUserDefaultsKey]];
+    [preferences removeObjectForKey:[self userDefaultsKey]];
     [preferences synchronize];
   }
   return props;
 }
 
-- (NSString *)getUserDefaultsKey
+- (NSString *)userDefaultsKey
 {
   return @"expo.errorRecovery";
 }
