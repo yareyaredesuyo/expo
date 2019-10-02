@@ -435,88 +435,32 @@ UM_EXPORT_METHOD_AS(getOrientationAsync,
     }
 }
 
-// now the method catches all mask cases: Default orientations in order are: up-left-right-down
 - (void)enforceDesiredDeviceOrientationWithOrientationMask:(UIInterfaceOrientationMask)orientationMask
 {
   dispatch_async(dispatch_get_main_queue(), ^{
     UIInterfaceOrientation currentOrientation = [UIApplication sharedApplication].statusBarOrientation;
-    UIInterfaceOrientation newOrientation = UIInterfaceOrientationUnknown;
-    switch (orientationMask) {
-      case UIInterfaceOrientationMaskAll:
-        break;
-      
-      case (UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskLandscapeLeft | UIInterfaceOrientationMaskLandscapeRight):
-        if (currentOrientation == UIInterfaceOrientationPortraitUpsideDown) {
-          newOrientation = UIInterfaceOrientationPortrait;
-        }
-        break;
-      case (UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskLandscapeLeft | UIInterfaceOrientationMaskPortraitUpsideDown):
-        if (currentOrientation == UIInterfaceOrientationLandscapeRight) {
-          newOrientation = UIInterfaceOrientationPortrait;
-        }
-        break;
-      case (UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskLandscapeRight | UIInterfaceOrientationMaskPortraitUpsideDown):
-        if (currentOrientation == UIInterfaceOrientationLandscapeLeft) {
-          newOrientation = UIInterfaceOrientationPortrait;
-        }
-        break;
-      case (UIInterfaceOrientationMaskLandscapeLeft | UIInterfaceOrientationMaskLandscapeRight | UIInterfaceOrientationMaskPortraitUpsideDown):
-        if (currentOrientation == UIInterfaceOrientationPortrait) {
-          newOrientation = UIInterfaceOrientationLandscapeLeft;
-        }
-        break;
-      
-      case (UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown):
-        if (currentOrientation == UIInterfaceOrientationLandscapeLeft | currentOrientation == UIInterfaceOrientationLandscapeRight) {
-          newOrientation = UIInterfaceOrientationPortrait;
-        }
-        break;
-      case (UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskLandscapeRight):
-        if (currentOrientation == UIInterfaceOrientationLandscapeLeft | currentOrientation == UIInterfaceOrientationPortraitUpsideDown) {
-          newOrientation = UIInterfaceOrientationPortrait;
-        }
-        break;
-      case (UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskLandscapeLeft):
-        if (currentOrientation == UIInterfaceOrientationLandscapeRight | currentOrientation == UIInterfaceOrientationPortraitUpsideDown) {
-          newOrientation = UIInterfaceOrientationPortrait;
-        }
-        break;
-      case (UIInterfaceOrientationMaskLandscapeLeft | UIInterfaceOrientationMaskPortraitUpsideDown):
-        if (currentOrientation == UIInterfaceOrientationPortrait | currentOrientation == UIInterfaceOrientationLandscapeRight) {
-          newOrientation = UIInterfaceOrientationLandscapeLeft;
-        }
-        break;
-      case (UIInterfaceOrientationMaskLandscapeLeft | UIInterfaceOrientationMaskLandscapeRight):
-        if (currentOrientation == UIInterfaceOrientationPortrait | currentOrientation == UIInterfaceOrientationPortraitUpsideDown) {
-          newOrientation = UIInterfaceOrientationLandscapeLeft;
-        }
-        break;
-      case (UIInterfaceOrientationMaskLandscapeRight | UIInterfaceOrientationMaskPortraitUpsideDown):
-        if (currentOrientation == UIInterfaceOrientationPortrait | currentOrientation == UIInterfaceOrientationLandscapeLeft) {
-          newOrientation = UIInterfaceOrientationLandscapeRight;
-        }
-        break;
-      
-      case UIInterfaceOrientationMaskPortrait:
+    
+    // it is how the mask is created from the orientation
+    UIInterfaceOrientationMask maskFromCurrentOrientation = (1 << currentOrientation);
+    
+    // if current orientation isn't part of the mask, we have to change orientation for one included in mask, in specified order
+    if (!(maskFromCurrentOrientation & orientationMask)) {
+      UIInterfaceOrientation newOrientation = UIInterfaceOrientationUnknown;
+      if (UIInterfaceOrientationMaskPortrait & orientationMask) {
         newOrientation = UIInterfaceOrientationPortrait;
-        break;
-      case UIInterfaceOrientationMaskLandscapeLeft:
+      } else if (UIInterfaceOrientationMaskLandscapeLeft & orientationMask) {
         newOrientation = UIInterfaceOrientationLandscapeLeft;
-        break;
-      case UIInterfaceOrientationMaskLandscapeRight:
+      } else if (UIInterfaceOrientationMaskLandscapeRight & orientationMask) {
         newOrientation = UIInterfaceOrientationLandscapeRight;
-        break;
-      case UIInterfaceOrientationMaskPortraitUpsideDown:
+      } else if (UIInterfaceOrientationMaskPortraitUpsideDown & orientationMask) {
         newOrientation = UIInterfaceOrientationPortraitUpsideDown;
-        break;
+      }
 
-      default:
-        break;
+      if (newOrientation != UIInterfaceOrientationUnknown) {
+        [[UIDevice currentDevice] setValue:@(newOrientation) forKey:@"orientation"];
+      }
+      [UIViewController attemptRotationToDeviceOrientation];
     }
-    if (newOrientation != UIInterfaceOrientationUnknown && currentOrientation != newOrientation) {
-      [[UIDevice currentDevice] setValue:@(newOrientation) forKey:@"orientation"];
-    }
-    [UIViewController attemptRotationToDeviceOrientation];
   });
 }
 
