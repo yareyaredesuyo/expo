@@ -1,3 +1,4 @@
+import './ErrorRecovery.fx';
 export declare const recoveredProps: {
     [key: string]: any;
 } | null;
