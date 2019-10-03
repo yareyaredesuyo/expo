@@ -736,7 +736,7 @@ static GLfloat imagePlaneVerts[6] = { -2.0f, 0.0f, 0.0f, -2.0f, 2.0f, 2.0f };
     
     for (ARHitTestResult *result in results) {
       [hitTest addObject:@{
-                           @"type": [NSNumber numberWithInt: result.type],
+                           @"type": [NSNumber numberWithUnsignedLong:result.type],
                            @"distance": [NSNumber numberWithFloat:result.distance],
                            @"localTransform": [EXGLARSessionManager nsArrayForMatrix:result.localTransform],
                            @"worldTransform": [EXGLARSessionManager nsArrayForMatrix:result.worldTransform],
