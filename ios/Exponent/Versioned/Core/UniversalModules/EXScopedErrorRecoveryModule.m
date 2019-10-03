@@ -65,6 +65,8 @@
 
 - (NSString *)userDefaultsKey
 {
+   // We don't want to recovery props propagate from one version to another.
+   // `EX` will be changed to `ABI_X_X` during versioning.
   return [NSString stringWithFormat:@"EX.%@", [super userDefaultsKey]];
 }
 @end
