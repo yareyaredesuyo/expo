@@ -329,7 +329,7 @@ NS_ASSUME_NONNULL_BEGIN
   }
   EXScreenOrientationRegistry *registry = (EXScreenOrientationRegistry *)[UMModuleRegistryProvider getSingletonModuleForClass:[EXScreenOrientationRegistry class]];
   if ([registry doesKeyExistForAppId:_appRecord.experienceId]) {
-    return [registry getOrientationMaskForAppId:_appRecord.experienceId];
+    return [registry orientationMaskForAppId:_appRecord.experienceId];
   } else if (_appRecord.appLoader.manifest) {
     NSString *orientationConfig = _appRecord.appLoader.manifest[@"orientation"];
     UIInterfaceOrientationMask mask = UIInterfaceOrientationMaskAllButUpsideDown;

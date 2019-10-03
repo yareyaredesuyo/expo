@@ -9,7 +9,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)setOrientationMask:(UIInterfaceOrientationMask)orientationMask
           forAppId:(NSString *)appId;
-- (UIInterfaceOrientationMask)getOrientationMaskForAppId:(NSString *)appId;
+- (UIInterfaceOrientationMask)orientationMaskForAppId:(NSString *)appId;
 - (BOOL)doesKeyExistForAppId:(NSString *)appId;
 
 @property (atomic, strong) NSMutableDictionary<NSString *, NSNumber *> *orientationMap;

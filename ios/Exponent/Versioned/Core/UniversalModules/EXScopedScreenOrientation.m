@@ -19,14 +19,14 @@
   return self;
 }
 
-- (UIInterfaceOrientationMask)getOrientationMask
+- (UIInterfaceOrientationMask)orientationMask
 {
-  return [[self getRegistry] getOrientationMaskForAppId:_experienceId];
+  return [[EXScreenOrientationModule sharedRegistry] orientationMaskForAppId:_experienceId];
 }
 
 - (void)setOrientationMask:(UIInterfaceOrientationMask)mask
 {
-  return [[self getRegistry] setOrientationMask:mask forAppId:_experienceId];
+  return [[EXScreenOrientationModule sharedRegistry] setOrientationMask:mask forAppId:_experienceId];
 }
 
 @end

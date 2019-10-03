@@ -20,12 +20,12 @@ UM_REGISTER_SINGLETON_MODULE(EXScreenOrientationRegistry)
     _orientationMap[appId] = @((NSUInteger)orientationMask);
 }
 
-- (UIInterfaceOrientationMask)getOrientationMaskForAppId:(NSString *)appId
+- (UIInterfaceOrientationMask)orientationMaskForAppId:(NSString *)appId
 {
   if (!_orientationMap[appId]) {
     return UIInterfaceOrientationMaskAllButUpsideDown;
   }
-    return (UIInterfaceOrientationMask)[_orientationMap[appId] integerValue];
+    return (UIInterfaceOrientationMask)[_orientationMap[appId] unsignedIntegerValue];
 }
 
 - (BOOL)doesKeyExistForAppId:(NSString *)appId

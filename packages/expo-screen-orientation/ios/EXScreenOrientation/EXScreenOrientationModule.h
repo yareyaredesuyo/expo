@@ -29,8 +29,8 @@ typedef NS_ENUM(NSInteger, EXOrientationLock) {
   EXOrientationAllButUpsideDownLock // deprecated
 };
 
-- (UIInterfaceOrientationMask)getOrientationMask;
+- (UIInterfaceOrientationMask)orientationMask;
 - (void)setOrientationMask:(UIInterfaceOrientationMask)mask;
-- (EXScreenOrientationRegistry *)getRegistry;
++ (EXScreenOrientationRegistry *)sharedRegistry;
 
 @end
