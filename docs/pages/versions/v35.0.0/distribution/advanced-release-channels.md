@@ -37,6 +37,7 @@ Your users will get the most recent compatible release that was pushed to a chan
 
 - sdkVersion
 - platform
+- releaseChannel
 
 The following flowchart shows how we determine which release to return to a user:
 
