@@ -85,6 +85,7 @@ export declare const SortBy: SortByObject;
 export declare function requestPermissionsAsync(): Promise<PermissionsResponse>;
 export declare function getPermissionsAsync(): Promise<PermissionsResponse>;
 export declare function createAssetAsync(localUri: string): Promise<Asset>;
+export declare function saveToLibraryAsync(localUri: string): Promise<void>;
 export declare function addAssetsToAlbumAsync(assets: Array<AssetRef> | AssetRef, album: AlbumRef, copy?: boolean): Promise<any>;
 export declare function removeAssetsFromAlbumAsync(assets: Array<AssetRef> | AssetRef, album: AlbumRef): Promise<any>;
 export declare function deleteAssetsAsync(assets: Array<AssetRef> | AssetRef): Promise<any>;
