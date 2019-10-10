@@ -37,8 +37,6 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.math.BigInteger;
 import java.net.CookieHandler;
-import java.nio.file.LinkOption;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -310,7 +308,7 @@ public class FileSystemModule extends ExportedModule {
           if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             FileUtils.forceDelete(file);
           } else {
-            // to be removed once Android SDK 25 support is dropped
+            // TODO: remove once Android SDK 25 support is dropped
             forceDelete(file);
           }
           promise.resolve(null);
@@ -894,7 +892,7 @@ public class FileSystemModule extends ExportedModule {
 
   /**
    * Concatenated copy of org.apache.commons.io@1.4.0#FileUtils#forceDelete
-   * Newer version of commons-io uses File#toPath() under the hood that unsupported below Android SDK 26
+   * Newer version of commons-io uses File#toPath() under the hood that is unsupported below Android SDK 26
    * See docs for reference https://commons.apache.org/proper/commons-io/javadocs/api-1.4/index.html
    */
   private void forceDelete(File file) throws IOException {
@@ -913,7 +911,7 @@ public class FileSystemModule extends ExportedModule {
         }
       }
 
-      if (null != exception) {
+      if (exception != null) {
         throw exception;
       }
 
@@ -921,7 +919,7 @@ public class FileSystemModule extends ExportedModule {
         throw new IOException("Unable to delete directory " + file + ".");
       }
     } else if (!file.delete()) {
-      throw new IOException( "Unable to delete file: " + file);
+      throw new IOException("Unable to delete file: " + file);
     }
   }
 }
