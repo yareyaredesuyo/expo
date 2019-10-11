@@ -11,6 +11,8 @@ We recommend doing the [managed workflow walkthrough](../../workflow/exploring-m
 
 ## Managed workflow
 
+The managed workflow is kind of like "[Rails](https://rubyonrails.org/)" and "[Create React App](https://github.com/facebook/create-react-app)" for React Native. 
+
 Apps are built with the managed workflow using the [expo-cli](../../workflow/expo-cli/), the Expo client on your mobile device, and our various services: [push notifications](../../guides/push-notifications/), the [build service](../../distribution/building-standalone-apps/), and [over-the-air (OTA) updates](../../guides/configuring-ota-updates/). Expo tries to manage as much of the complexity of building apps for you as we can, so we call it the managed workflow. A developer using the managed workflow doesn't use Xcode or Android Studio, they just write JavaScript code and managed configuration through [app.json](../../workflow/configuration/). There are tradeoffs that you should consider when building your app this way, check out [Why not Expo?](../../introduction/why-not-expo/) to learn more.
 
 If you get to the point where you need to have more control (eg: to add your own custom native code), you can eject your project to a vanilla React Native app that includes just the Expo tools that you are using, we call this the bare workflow.

@@ -86,12 +86,6 @@ If you are using native libraries that aren't supported by Expo, you will either
 
 _N.B. We used to maintain a tool `exp convert` but it is not currently working or maintained so the above method is the best way to get an existing React Native project working on Expo_
 
-## How do I remove a Managed Expo project that I published?
-
-The default [privacy setting](../../workflow/configuration/) for managed apps is `unlisted` so nobody can find your app unless you share the link with them.
-
-If you really want your published app to be 'unpublished', check out our guide on [Advanced Release Channels](../../distribution/advanced-release-channels/), which explains how to roll back.
-
 ## What is Exponent and how is it different from Expo?
 
 Exponent is the original name of the Expo project. You might occasionally run across some old references to it in blog posts or code or documentation. They are the same thing; we just shortened the name.
@@ -105,21 +99,3 @@ Expo supports Android 5+ and iOS 10+.
 If the package depends on [Node standard library APIs](https://nodejs.org/api/index.html), you will not be able to use it with Expo. The Node standard library is a set of functionality implemented largely in C++ that exposes functions to JavaScript that aren't part of the JavaScript language specification, such as the ability to read and write to your filesystem. React Native, and by extension Expo, do not include the Node standard library, just like Chrome and Firefox do not include it. JavaScript is a language that is used in many contexts, from mobile apps (in our case), to servers, and of course on websites. These contexts all include their own runtime environments that expose different APIs to JavaScript, depending on what makes sense in the context.
 
 As a side note, some Node standard library APIs do not depend on C++ extensions but instead can be implemented directly in JavaScript, such as [url](https://www.npmjs.com/package/url) and [assert](https://www.npmjs.com/package/assert). If a package you wish to use only depends on these Node APIs, you can install them from npm and the package will work.
-
-## Can I use Expo with Relay?
-
-You can! Update your `babel.config.js` you get on a new Expo project to the following:
-
-```javascript
-module.exports = function(api) {
-  api.cache(true)
-  return {
-    presets: ["babel-preset-expo"],
-    plugins: ["relay"]
-   }
-};
-```
-
-## How do I handle expired push notification credentials?
-
-When your push notification credentials have expired, simply run `expo build:ios -c --no-publish` to clear your expired credentials and generate new ones. The new credentials will take effect within a few minutes of being generated. You do not have to submit a new build!
